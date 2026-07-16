@@ -469,33 +469,3 @@ elif page == "About Us":
             </div>""",
         unsafe_allow_html=True
     )
-
-    st.markdown('<div class="section-title">Contact Us</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="page-subtitle">Have a question or feedback about this project? Send us a message.</div>',
-        unsafe_allow_html=True
-    )
-
-    with st.form("contact_form", clear_on_submit=True):
-        contact_name = st.text_input("Name", placeholder="Your full name")
-        contact_email = st.text_input("Email", placeholder="you@example.com")
-        contact_message = st.text_area("Message", placeholder="Write your message here", height=120)
-
-        contact_submitted = st.form_submit_button("Send Message")
-
-    if contact_submitted:
-        is_valid_email = "@" in contact_email and "." in contact_email.split("@")[-1] if contact_email else False
-
-        if not contact_name or not contact_email or not contact_message:
-            st.warning("Please fill in all fields before sending your message.")
-        elif not is_valid_email:
-            st.warning("Please enter a valid email address.")
-        else:
-            contact_record = {
-                "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "Name": contact_name,
-                "Email": contact_email,
-                "Message": contact_message
-            }
-            log_contact_message(contact_record)
-            st.success("Thank you for reaching out. We will get back to you soon.")
