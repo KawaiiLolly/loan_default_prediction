@@ -44,6 +44,9 @@ loan default prediction/
 |   |-- style.css                 All custom CSS for the Streamlit app
 |
 |-- app.py                        Streamlit web app for loan status prediction
+|-- loan_default_prediction.html         HTML export of the notebook
+|-- loan_default_prediction_notebook.pdf PDF export of the notebook
+|-- loan_default_prediction_summary.pdf  One-page project summary
 |-- requirements.txt
 |-- README.md
 ```
@@ -132,6 +135,21 @@ After running the notebook, the following files are created inside the
 
 These three files are all that is needed to make predictions on new data,
 for example inside a Streamlit web app.
+
+## Notebook Exports and Project Summary
+
+Alongside the executable notebook, the project includes ready-to-share
+versions of the results:
+
+- `loan_default_prediction.html` : full HTML export of the executed notebook
+  (all code, outputs, and charts), viewable in any browser.
+- `loan_default_prediction_notebook.pdf` : PDF export of the same notebook,
+  for printing or sharing where a browser isn't convenient.
+- `loan_default_prediction_summary.pdf` : a one-page summary covering the
+  project goal, the chosen model (Logistic Regression) with its final
+  training and test accuracy, and the key insights from the EDA (credit
+  history as the dominant predictor, class imbalance, and the roles of
+  income, property area, and education).
 
 ## Testing with Custom Input
 

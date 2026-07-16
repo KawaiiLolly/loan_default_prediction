@@ -1,3 +1,4 @@
+# Libraries, Dependencies
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -7,15 +8,10 @@ import logging
 from datetime import datetime
 import plotly.express as px
 
-# ===========================================================
 # Page config and theme
-# ===========================================================
 st.set_page_config(page_title="Loan Default Prediction", page_icon=None, layout="wide")
 
-
-# ===========================================================
-# Folder setup (permanent folders, created once if missing)
-# ===========================================================
+# Folder setup
 LOG_DIR = "logs"
 MODEL_DIR = "models"
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -31,12 +27,9 @@ PREDICTION_COLUMNS = [
 ]
 
 CONTACT_COLUMNS = ["Timestamp", "Name", "Email", "Message"]
-
 CHOOSE_OPTION = "Choose an option"
 
-# ===========================================================
 # Logging setup
-# ===========================================================
 logging.basicConfig(
     filename=APP_LOG_FILE,
     level=logging.INFO,
@@ -45,24 +38,20 @@ logging.basicConfig(
 )
 logger = logging.getLogger("loan_app")
 
-
 def init_csv_log(path, columns):
     if not os.path.exists(path):
         pd.DataFrame(columns=columns).to_csv(path, index=False)
         logger.info(f"Created a new log file: {path}")
-
 
 def log_prediction(record):
     row = pd.DataFrame([record], columns=PREDICTION_COLUMNS)
     row.to_csv(PREDICTIONS_LOG_FILE, mode="a", header=False, index=False)
     logger.info(f"Prediction logged: {record}")
 
-
 def log_contact_message(record):
     row = pd.DataFrame([record], columns=CONTACT_COLUMNS)
     row.to_csv(CONTACT_LOG_FILE, mode="a", header=False, index=False)
     logger.info(f"Contact message logged from: {record.get('Email')}")
-
 
 def load_predictions_log():
     if os.path.exists(PREDICTIONS_LOG_FILE):
@@ -76,9 +65,7 @@ def load_predictions_log():
 init_csv_log(PREDICTIONS_LOG_FILE, PREDICTION_COLUMNS)
 init_csv_log(CONTACT_LOG_FILE, CONTACT_COLUMNS)
 
-# ===========================================================
 # Load model artifacts
-# ===========================================================
 @st.cache_resource
 def load_artifacts():
     with open(os.path.join(MODEL_DIR, "best_model.pkl"), "rb") as f:
@@ -106,22 +93,18 @@ column_order = [
     "Loan_Amount_Term", "Credit_History", "Property_Area"
 ]
 
-
 GREEN_DARK = "#1B3B2F"
 GREEN_MID = "#2F6B4F"
 RED_SOFT = "#C0524B"
-
 
 def load_css(path):
     with open(path) as f:
         return f.read()
 
-
 CSS_FILE = os.path.join("styles", "style.css")
 st.markdown(f"<style>{load_css(CSS_FILE)}</style>", unsafe_allow_html=True)
 
 PLOTLY_CONFIG = {"displayModeBar": False, "displaylogo": False}
-
 
 def style_chart(fig, height=320):
     fig.update_layout(
@@ -134,10 +117,7 @@ def style_chart(fig, height=320):
     )
     return fig
 
-
-# ===========================================================
 # Helper functions
-# ===========================================================
 def predict_loan_status(input_data):
     input_df = pd.DataFrame([input_data])
     input_df = input_df[column_order]
@@ -168,10 +148,7 @@ def stat_card(col, value, label):
         unsafe_allow_html=True
     )
 
-
-# ===========================================================
 # Navigation state
-# ===========================================================
 NAV_ITEMS = [
     ("Dashboard", ":material/space_dashboard:"),
     ("Prediction", ":material/insights:"),
@@ -195,17 +172,12 @@ def render_bottom_nav(container_key):
                     st.rerun()
 
 
-# Full nav (icon + label) for larger screens; compact (icon-only) for small
-# mobile screens. Both drive the same session state; CSS shows only one
-# at a time based on viewport width so the pill never wraps/bulges.
 render_bottom_nav("bottom_nav_full")
 render_bottom_nav("bottom_nav_compact")
 
 page = st.session_state.page
 
-# ===========================================================
-# PAGE: Dashboard
-# ===========================================================
+# Dashboard
 if page == "Dashboard":
 
     log_df = load_predictions_log()
@@ -275,13 +247,11 @@ if page == "Dashboard":
             labels = ["Approved" if i == "Y" else "Not Approved" for i in counts.index]
 
             fig1 = px.pie(
-                names=labels,
                 values=counts.values,
                 color=labels,
                 color_discrete_map=color_map,
                 hole=0.45
             )
-            fig1.update_traces(textinfo="percent+label", textfont_size=12)
             fig1 = style_chart(fig1)
             st.plotly_chart(fig1, use_container_width=True, config=PLOTLY_CONFIG)
             st.markdown('</div>', unsafe_allow_html=True)
@@ -339,9 +309,7 @@ if page == "Dashboard":
             st.plotly_chart(fig4, use_container_width=True, config=PLOTLY_CONFIG)
             st.markdown('</div>', unsafe_allow_html=True)
 
-# ===========================================================
-# PAGE: Prediction
-# ===========================================================
+# Prediction
 elif page == "Prediction":
 
     st.markdown('<div class="page-title">Prediction</div>', unsafe_allow_html=True)
@@ -466,9 +434,7 @@ elif page == "Prediction":
                 logger.error(f"Prediction failed: {e}")
                 st.error("Something went wrong while making the prediction. Please check the input values.")
 
-# ===========================================================
-# PAGE: About Us
-# ===========================================================
+# About Us
 elif page == "About Us":
 
     st.markdown('<div class="page-title">About This Project</div>', unsafe_allow_html=True)
