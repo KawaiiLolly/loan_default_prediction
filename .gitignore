@@ -56,6 +56,9 @@ data/processed_loan_dataset.csv
 # Trained models
 models/
 
+# Logs
+logs/
+
 # Optional: Ignore prediction outputs
 predictions.csv
 

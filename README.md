@@ -20,9 +20,17 @@ This project covers the full workflow of a classification problem:
 
 ```
 loan default prediction/
+|-- .streamlit/
+|   |-- config.toml               Light theme configuration (green palette)
+|
 |-- data/
 |   |-- loan_dataset.csv          Raw dataset
 |   |-- processed_loan_data.csv   Cleaned and encoded dataset
+|
+|-- logs/
+|   |-- app.log                   Text log of every app event
+|   |-- predictions_log.csv       Structured log of every prediction made
+|   |-- contact_messages.csv      Messages submitted through the About Us contact form
 |
 |-- models/
 |   |-- best_model.pkl            Trained model with the best test accuracy
@@ -32,6 +40,10 @@ loan default prediction/
 |-- notebook/
 |   |-- loan_default_prediction.ipynb   Main notebook with the full workflow
 |
+|-- styles/
+|   |-- style.css                 All custom CSS for the Streamlit app
+|
+|-- app.py                        Streamlit web app for loan status prediction
 |-- requirements.txt
 |-- README.md
 ```
@@ -127,7 +139,62 @@ The last section of the notebook allows testing the trained model with a
 custom applicant record. Update the values in the `custom_input` dictionary
 and run the remaining cells to see whether the loan would be approved or not.
 
-## Next Steps
+## Streamlit Web App
 
-- Build a Streamlit web app that loads `best_model.pkl`, `scaler.pkl`, and
-  `encoders.pkl` to take user input from a form and display the prediction.
+A Streamlit app (`app.py`) is included with a light theme that keeps the same
+green color palette used throughout the project, and a floating bottom
+navigation bar (visible on both desktop and mobile) with three pages:
+Dashboard, Prediction, and About Us.
+
+**Dashboard** (default page on launch)
+Opens with a welcome header, followed by an overview of all predictions made
+(total, approved, not approved, approval rate), a list of the 10 most recent
+predictions with the input details used, and interactive charts built from
+the prediction history:
+
+- Approved vs Not Approved split
+- Credit History vs Prediction outcome
+- Applicant Income distribution
+- Approval rate by Property Area
+
+Charts are built with Plotly, so they support hovering for exact values,
+dragging to zoom, and clicking legend entries to toggle a series on or off.
+
+**Prediction**
+A focused form with only the applicant detail fields and the prediction
+output. All fields start empty ("Choose an option" for dropdowns, blank
+placeholders for number fields) rather than pre-filled defaults, so a
+submission always reflects values the user actually entered. Applicant and
+coapplicant income fields include a tooltip clarifying that the value should
+be entered as a raw number (for example 5000), not in hundreds or thousands.
+Loan Amount Term is a plain numeric field (in months) rather than a dropdown.
+If any field is left empty, the app shows a warning instead of predicting.
+Every completed prediction is logged automatically.
+
+**About Us**
+Describes what the project does, how the underlying model was built, and who
+it is intended for, followed by a contact form (name, email, message) for
+questions or feedback. Submitted messages are validated and logged.
+
+To run the app, make sure the notebook has been run at least once so that the
+`models` folder contains the three pickle files, then from the project root run:
+
+```
+streamlit run app.py
+```
+
+This will open the app in your browser, usually at `http://localhost:8501`.
+
+## Logging
+
+The `logs` folder is created automatically if it does not exist, and is kept
+permanently in the project so history is not lost between runs.
+
+- `logs/app.log` records every app event (model load, predictions made,
+  contact messages, errors) with a timestamp.
+- `logs/predictions_log.csv` stores a structured record of every prediction
+  made, including all input values, the predicted status, and the approval
+  probability. This file powers the Dashboard page.
+- `logs/contact_messages.csv` stores every message submitted through the
+  About Us contact form.
+
