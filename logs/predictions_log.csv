@@ -1,0 +1,5 @@
+Timestamp,Gender,Married,Dependents,Education,Self_Employed,ApplicantIncome,CoapplicantIncome,LoanAmount,Loan_Amount_Term,Credit_History,Property_Area,Prediction,Approval_Probability
+2026-07-16 08:36:27,Female,Yes,2,Graduate,Yes,6000,0,134,84,1.0,Semiurban,Y,68.1
+2026-07-16 13:13:13,Female,No,2,Not Graduate,Yes,6800,2542,127,354,1.0,Urban,Y,60.17
+2026-07-16 13:13:26,Female,No,2,Not Graduate,Yes,1000,2542,127,354,1.0,Urban,Y,60.43
+2026-07-16 13:14:06,Male,No,3+,Not Graduate,No,500,500,356000,24,0.0,Rural,N,0.0
