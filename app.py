@@ -72,7 +72,7 @@ def load_artifacts():
         model = pickle.load(f)
     with open(os.path.join(MODEL_DIR, "scaler.pkl"), "rb") as f:
         scaler = pickle.load(f)
-    with open(os.path.join(MODEL_DIR, "encoders.pkl"), "rb") as f:
+    with open(os.path.join(MODEL_DIR, "encoder.pkl"), "rb") as f:
         encoders = pickle.load(f)
     return model, scaler, encoders
 
