@@ -3,3 +3,33 @@ Timestamp,Gender,Married,Dependents,Education,Self_Employed,ApplicantIncome,Coap
 2026-07-16 13:13:13,Female,No,2,Not Graduate,Yes,6800,2542,127,354,1.0,Urban,Y,60.17
 2026-07-16 13:13:26,Female,No,2,Not Graduate,Yes,1000,2542,127,354,1.0,Urban,Y,60.43
 2026-07-16 13:14:06,Male,No,3+,Not Graduate,No,500,500,356000,24,0.0,Rural,N,0.0
+2026-07-29 20:10:55,Female,No,0,Graduate,No,4000,2275,120,360,1.0,Semiurban,Y,64.0
+2026-07-29 20:11:25,Male,Yes,1,Graduate,No,3500,1667,105,360,1.0,Rural,Y,67.19
+2026-07-29 20:14:03,Male,Yes,0,Not Graduate,No,2600,1500,90,360,1.0,Urban,Y,63.83
+2026-07-29 20:14:30,Female,Yes,2,Graduate,Yes,5416,0,194,360,1.0,Urban,Y,69.77
+2026-07-29 20:15:20,Male,No,0,Graduate,No,6200,0,125,360,1.0,Urban,Y,64.49
+2026-07-29 20:15:43,Female,No,0,Not Graduate,No,2300,0,75,360,0.0,Rural,N,23.82
+2026-07-29 20:16:26,Male,Yes,3+,Graduate,No,7100,2200,200,60,1.0,Semiurban,Y,67.78
+2026-07-29 20:17:04,Male,Yes,1,Graduate,Yes,4800,1700,150,36,1.0,Urban,Y,65.85
+2026-07-29 20:17:29,Female,Yes,0,Graduate,No,5500,1200,160,12,1.0,Urban,Y,67.91
+2026-07-29 20:18:00,Male,No,2,Graduate,No,4500,300,100,360,1.0,Urban,Y,66.07
+2026-07-29 20:18:24,Male,No,2,Not Graduate,No,2800,900,85,60,0.0,Rural,N,22.76
+2026-07-29 20:18:54,Female,Yes,1,Graduate,No,3700,452,254,123,1.0,Urban,Y,69.32
+2026-07-29 20:19:27,Male,No,0,Graduate,Yes,8000,0,213,32,0.0,Urban,N,24.85
+2026-07-29 20:19:48,Female,No,0,Not Graduate,No,50000,0,100,60,0.0,Urban,N,22.47
+2026-07-29 20:20:25,Male,Yes,3+,Not Graduate,No,2900,100,5,0,0.0,Rural,N,27.09
+2026-07-29 20:20:50,Female,No,0,Graduate,Yes,6800,100,174,39,1.0,Semiurban,Y,62.02
+2026-07-29 20:21:18,Male,Yes,1,Not Graduate,No,10000,5,145,66,1.0,Urban,Y,63.78
+2026-07-29 20:21:53,Male,Yes,2,Graduate,No,5200,2100,2,6,1.0,Rural,Y,66.54
+2026-07-29 20:22:33,Female,Yes,0,Graduate,No,6100,14532,300,100,1.0,Semiurban,Y,60.63
+2026-07-29 20:22:36,Female,Yes,0,Graduate,No,6100,14532,300,100,0.0,Semiurban,N,24.27
+2026-07-29 20:23:03,Male,No,1,Not Graduate,No,2451,1453,32,180,0.0,Semiurban,N,23.0
+2026-07-29 20:23:26,Male,Yes,0,Graduate,Yes,9000,3500,280,360,1.0,Urban,Y,65.01
+2026-07-29 20:23:46,Female,Yes,3+,Graduate,Yes,50000,400000,10000,360,1.0,Urban,N,0.02
+2026-07-29 20:25:01,Male,Yes,1,Graduate,Yes,30000,15000,500,144,0.0,Urban,N,22.15
+2026-07-29 20:25:07,Male,Yes,1,Graduate,Yes,30000,15000,500,144,1.0,Urban,Y,57.74
+2026-07-29 20:25:19,Male,Yes,1,Graduate,Yes,30000,15000,100,144,1.0,Urban,Y,58.59
+2026-07-29 20:25:21,Male,Yes,1,Graduate,Yes,30000,15000,100,144,0.0,Urban,N,22.75
+2026-07-29 20:25:27,Male,Yes,1,Graduate,Yes,30000,15000,5,144,0.0,Urban,N,22.9
+2026-07-29 20:25:34,Male,Yes,0,Graduate,Yes,30000,15000,5,144,0.0,Urban,N,22.28
+2026-07-29 20:25:39,Male,Yes,0,Graduate,Yes,30000,15000,0,144,0.0,Urban,N,22.29
