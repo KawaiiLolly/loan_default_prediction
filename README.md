@@ -8,12 +8,16 @@ education, and property area.
 
 This project covers the full workflow of a classification problem:
 
-- Exploratory Data Analysis (EDA) and visualization
+- Exploratory Data Analysis (EDA) and visualization, including deeper
+  insight-driven charts (Credit History vs Loan Status, Income and Loan
+  Amount vs Loan Status, Approval Rate by Property Area)
 - Data cleaning and missing value handling
+- Exploratory feature engineering (Total Income, log transform) and a
+  dedicated Key Insights summary
 - Encoding categorical features
 - Feature scaling
 - Training and tuning multiple ML models
-- Model evaluation and comparison 
+- Model evaluation and comparison
 - Exporting the best model for later use in a Streamlit web app
 
 ## Project Structure
@@ -23,19 +27,23 @@ loan default prediction/
 |-- .streamlit/
 |   |-- config.toml               Light theme configuration (green palette)
 |
+|-- charts/
+|   |-- *.png                     All EDA and model comparison charts, saved automatically when the notebook runs
+|
 |-- data/
-|   |-- loan_dataset.csv          Raw dataset
-|   |-- processed_loan_data.csv   Cleaned and encoded dataset
+|   |-- raw/
+|   |   |-- loan_dataset.csv          Raw dataset
+|   |-- processed/
+|   |   |-- processed_loan_dataset.csv Cleaned and encoded dataset
 |
 |-- logs/
 |   |-- app.log                   Text log of every app event
 |   |-- predictions_log.csv       Structured log of every prediction made
-|   |-- contact_messages.csv      Messages submitted through the About Us contact form
-|
+|   |
 |-- models/
 |   |-- best_model.pkl            Trained model with the best test accuracy
 |   |-- scaler.pkl                StandardScaler fitted on training data
-|   |-- encoders.pkl              LabelEncoders for categorical columns and target
+|   |-- encoder.pkl               LabelEncoders for categorical columns and target
 |
 |-- notebook/
 |   |-- loan_default_prediction.ipynb   Main notebook with the full workflow
@@ -50,6 +58,10 @@ loan default prediction/
 |-- requirements.txt
 |-- README.md
 ```
+
+Note: the notebook resolves `data/`, `charts/`, and `models/` as siblings of
+the `notebook/` folder (one level up from where the notebook itself lives),
+so keep this folder layout intact when running it.
 
 ## Dataset
 
@@ -70,6 +82,10 @@ The dataset contains loan application records with the following columns:
 | Credit_History | Whether the applicant has a credit history (1) or not (0) |
 | Property_Area | Urban / Semiurban / Rural |
 | Loan_Status | Target column: Y (approved) or N (not approved) |
+
+The raw file has 614 rows and 13 columns, with missing values in `Gender`
+(13), `Married` (3), `Dependents` (15), `Self_Employed` (32), `LoanAmount`
+(22), `Loan_Amount_Term` (14), and `Credit_History` (50).
 
 ## Setup
 
@@ -97,20 +113,35 @@ jupyter notebook notebook/loan_default_prediction.ipynb
 ## Workflow Followed in the Notebook
 
 1. Import libraries
-2. Load the dataset
-3. Exploratory Data Analysis and visualization
-4. Check and handle missing values (mode for categorical, median for numerical)
-5. Drop irrelevant columns
-6. Encode categorical features
-7. Save the processed dataset
-8. Split dependent and independent features
-9. Train test split
-10. Feature scaling
-11. Train models with GridSearchCV (Logistic Regression, Random Forest, SVM, KNN, XGBoost)
-12. Compare model results
-13. Select the best model
-14. Export the best model, scaler, and encoders
-15. Test the best model with custom input
+2. Load the dataset and take a first look (shape, info, describe)
+3. Initial EDA on the raw data: target variable distribution and a missing
+   values heatmap
+4. Check and handle missing values (mode for categorical, median for
+   numerical)
+5. Drop irrelevant columns (`Loan_ID`)
+6. Continue EDA on the now-clean data: categorical features vs Loan Status,
+   numerical feature distributions, outlier boxplots, and a correlation
+   heatmap
+7. Deeper, more insightful EDA: Credit History vs Loan Status, Income and
+   Loan Amount vs Loan Status, and Loan Approval Rate by Property Area
+8. Exploratory feature engineering: a combined Total Income feature and a
+   log transform to reduce its skew (kept separate from the modeling data
+   so the existing input pipeline is unaffected)
+9. Key Insights from EDA summary
+10. Encode categorical features
+11. Save the processed dataset
+12. Split dependent and independent features
+13. Train test split
+14. Feature scaling
+15. Train models with GridSearchCV (Logistic Regression, Random Forest, SVM,
+    KNN, XGBoost)
+16. Compare model results, including a bar chart of train vs test accuracy
+17. Select the best model
+18. Export the best model, scaler, and encoders
+19. Test the best model with custom input
+
+Every chart in the notebook is also saved automatically as a PNG file in the
+`charts/` folder as it is generated.
 
 ## Models Used
 
@@ -121,7 +152,29 @@ jupyter notebook notebook/loan_default_prediction.ipynb
 - XGBoost
 
 Each model is tuned using `GridSearchCV` with 5-fold cross validation, and
-compared on both training and test accuracy to check for overfitting.
+compared on both training and test accuracy to check for overfitting. On the
+current dataset, **Logistic Regression** comes out as the best model, with
+80.04% training accuracy and 86.18% test accuracy.
+
+## Key Insights from EDA
+
+- **Class balance:** about 68.7% of applications were approved (`Y`) and
+  31.3% were not (`N`).
+- **Credit history is the dominant signal:** applicants with a credit
+  history were approved 79.0% of the time, versus only 7.9% for those
+  without one — by far the strongest relationship in the data.
+- **Property area matters moderately:** Semiurban applicants had the
+  highest approval rate (76.8%), ahead of Urban (65.8%) and Rural (61.5%).
+- **Education has a smaller effect:** Graduates were approved 70.8% of the
+  time versus 61.2% for non-graduates.
+- **Income alone is a weak predictor:** mean Applicant Income was nearly
+  identical between approved (5,384) and not-approved (5,446) applicants,
+  and the same holds for Total Income (6,889 vs 7,324).
+- **Income and loan amount are heavily skewed:** Applicant Income has a
+  skew of 6.54 and Total Income 5.63; a log transform brings Total Income's
+  skew down to 1.08.
+- **Outliers are present** in `ApplicantIncome`, `CoapplicantIncome`, and
+  `LoanAmount`, consistent with the skew above.
 
 ## Output Files
 
@@ -130,11 +183,14 @@ After running the notebook, the following files are created inside the
 
 - `best_model.pkl` : the model with the highest test accuracy
 - `scaler.pkl` : the StandardScaler fitted on the training data
-- `encoders.pkl` : a dictionary of LabelEncoders for each categorical column
+- `encoder.pkl` : a dictionary of LabelEncoders for each categorical column
   and the target column
 
 These three files are all that is needed to make predictions on new data,
-for example inside a Streamlit web app.
+for example inside a Streamlit web app. The `charts/` folder additionally
+collects every plot generated during the notebook run as a PNG file, and
+`data/processed/processed_loan_dataset.csv` holds the cleaned and encoded
+dataset.
 
 ## Notebook Exports and Project Summary
 
@@ -213,6 +269,3 @@ permanently in the project so history is not lost between runs.
 - `logs/predictions_log.csv` stores a structured record of every prediction
   made, including all input values, the predicted status, and the approval
   probability. This file powers the Dashboard page.
-- `logs/contact_messages.csv` stores every message submitted through the
-  About Us contact form.
-
