@@ -13,7 +13,7 @@ This project covers the full workflow of a classification problem:
 - Encoding categorical features
 - Feature scaling
 - Training and tuning multiple ML models
-- Model evaluation and comparison
+- Model evaluation and comparison 
 - Exporting the best model for later use in a Streamlit web app
 
 ## Project Structure
